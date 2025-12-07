@@ -44,7 +44,7 @@ static void	ms_shell_loop(t_data *data)
 		// 3. Handle Ctrl-D (EOF)
 		if (!line)
 		{
-			printf("exit\n");
+			ft_printf("exit\n");
 			break ;
 		}
 		if (line[0] == '\0' || ft_isspace_only(line) )

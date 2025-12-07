@@ -17,9 +17,9 @@ static void	ms_save_io(t_data *data)
 	}
 }
 
-/* brief Restores the original standard I/O streams and closes backup FDs.
+/* Restores the original standard I/O streams and closes backup FDs.
 Used before exiting or when a command fails/finishes.
- * @param data The main shell structure.
+param data The main shell structure.
  */
 static void	ms_restore_io_and_close_backups(t_data *data)
 {
@@ -36,7 +36,7 @@ static void	ms_restore_io_and_close_backups(t_data *data)
 		data->stdout_backup = -1;
 	}
 }
-/* brief Placeholder for freeing a single t_command node and its contents.
+/* Placeholder for freeing a single t_command node and its contents.
  This function will be properly implemented by Student A (P1 cleanup).
  param content A pointer to the t_command struct content */
 static void	ms_free_command_node(void *content)
