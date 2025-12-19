@@ -49,7 +49,7 @@ SRC = ft_atoi.c \
 	  ft_striteri.c \
 	  ft_strlcpy.c	\
 	  ft_split.c \
-
+	  ft_free_and_null.c \
 
 OBJ = $(SRC:.c=.o)
 
