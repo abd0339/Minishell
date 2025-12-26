@@ -3,47 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzebian <kzebian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afahs <afahs@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 21:42:46 by kzebian           #+#    #+#             */
-/*   Updated: 2025/05/26 18:37:40 by kzebian          ###   ########.fr       */
+/*   Created: 2025/05/22 15:33:59 by afahs             #+#    #+#             */
+/*   Updated: 2025/05/24 02:44:33 by afahs            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
+	unsigned char	*res;
 	size_t			i;
-	unsigned char	*temp;
 
 	i = 0;
 	if (size != 0 && (nmemb * size) / size != nmemb)
 		return (NULL);
-	temp = malloc(nmemb * size);
-	if (!temp)
+	res = malloc(nmemb * size);
+	if (!res)
 		return (NULL);
 	while (i < nmemb * size)
-	{
-		temp[i] = 0;
-		i++;
-	}
-	return (temp);
+		res[i++] = 0;
+	return (res);
 }
-
-// #include<stdio.h>
-
-// int	main(void)
-// {
-// 	int		*arr;
-// 	size_t	n;
-
-// 	n = 8;
-// 	arr = (int	*)ft_calloc(8, sizeof(int));
-// 	for (size_t i = 0; i < n; i++)
-// 	{
-// 		printf("%d\n", i, arr[i]);
-// 	}
-// 	free(arr);
-// 	return 0;
-// }

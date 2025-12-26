@@ -79,3 +79,20 @@ t_list	*ms_create_env_list(char **envp)
 	}
 	return (env_list);
 }
+
+/*
+** Get the value of an environment variable by key.
+*/
+char	*ms_get_env_value(t_list *env_list, const char *key)
+{
+	t_env	*env;
+
+	while (env_list)
+	{
+		env = (t_env *)env_list->content;
+		if (ft_strcmp(env->key, key) == 0)
+			return (env->value);
+		env_list = env_list->next;
+	}
+	return (NULL);
+}

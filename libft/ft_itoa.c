@@ -3,49 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzebian <kzebian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afahs <afahs@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 23:17:14 by kzebian           #+#    #+#             */
-/*   Updated: 2025/05/26 18:43:13 by kzebian          ###   ########.fr       */
+/*   Created: 2025/05/23 17:18:37 by afahs             #+#    #+#             */
+/*   Updated: 2025/05/24 06:41:41 by afahs            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
-static int	lens(int nbr)
+static int	count(int n)
 {
-	long	n;
-	int		i;
+	int		c;
 
-	n = nbr;
-	i = 0;
-	if (n < 0)
-	{
-		i++;
-	}
-	if (n == 0)
-		return (1);
+	c = 0;
+	if (n <= 0)
+		c++;
 	while (n != 0)
 	{
+		c++;
 		n = n / 10;
-		i++;
-	}	
-	return (i);
+	}
+	return (c);
 }
 
 char	*ft_itoa(int n)
 {
 	char	*s;
 	int		i;
+	int		c;
 	long	nb;
-	int		len;
 
 	nb = n;
-	len = lens(nb);
-	s = malloc(len + 1);
+	c = count(nb);
+	s = malloc(c + 1);
 	if (!s)
 		return (NULL);
-	s[len] = '\0';
+	s[c] = 0;
 	if (nb < 0)
 	{
 		s[0] = '-';
@@ -53,7 +47,7 @@ char	*ft_itoa(int n)
 	}
 	if (nb == 0)
 		s[0] = '0';
-	i = len -1;
+	i = c - 1;
 	while (nb > 0)
 	{
 		s[i--] = (nb % 10) + '0';
@@ -61,10 +55,3 @@ char	*ft_itoa(int n)
 	}
 	return (s);
 }
-
-// #include <stdio.h>
-
-// int main(void)
-// {
-// 	printf("%s", ft_itoa(2147483647));
-// }

@@ -3,29 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzebian <kzebian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afahs <afahs@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/24 20:41:50 by kzebian           #+#    #+#             */
-/*   Updated: 2025/05/24 23:22:31 by kzebian          ###   ########.fr       */
+/*   Created: 2025/05/21 08:16:37 by afahs             #+#    #+#             */
+/*   Updated: 2025/05/22 00:07:21 by afahs            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	size_t	j;
+	size_t	src_len;
 
-	j = 0;
-	if (!src)
-		return (0);
-	if (size == 0)
-		return (ft_strlen(src));
-	while (j < size - 1 && src[j])
+	src_len = ft_strlen(src);
+	if (src_len + 1 < dstsize)
+		ft_memcpy(dst, src, src_len + 1);
+	else if (dstsize != 0)
 	{
-		dst[j] = src[j];
-		j++;
+		ft_memcpy(dst, src, dstsize -1);
+		dst[dstsize - 1] = 0;
 	}
-	dst[j] = '\0';
-	return (ft_strlen(src));
+	return (src_len);
 }

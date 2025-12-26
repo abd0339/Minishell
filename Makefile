@@ -1,86 +1,70 @@
+NAME        = minishell
+CC          = cc
+CFLAGS      = -Wall -Wextra -Werror -g3
+INCLUDES    = -I./includes -I./libft
 
-NAME		= minishell
-CC			= cc
-CFLAGS		= -Wall -Wextra -Werror 
-READLINE	= -lreadline
+READLINE    = -lreadline
 
-SRC_DIR		= src
-OBJ_DIR		= obj
-INC_DIR		= includes
-LIBFT_DIR	= libft
-LIBFT		= $(LIBFT_DIR)/libft.a
-FT_PRINTF_DIR	= ft_printf
-FT_PRINTF = $(FT_PRINTF_DIR)/libftprintf.a
+LIBFT_DIR   = ./libft
+LIBFT       = $(LIBFT_DIR)/libft.a
 
-INCLUDES	= -I$(INC_DIR) -I$(LIBFT_DIR)
+SRC_DIR     = src
+OBJ_DIR     = obj
 
+# All source files
+SRCS        = $(SRC_DIR)/main.c \
+              $(SRC_DIR)/setup/ms_init.c \
+              $(SRC_DIR)/setup/ms_env.c \
+              $(SRC_DIR)/setup/utils.c \
+              $(SRC_DIR)/signals/ms_signals.c \
+              $(SRC_DIR)/lexer/lexer.c \
+              $(SRC_DIR)/lexer/token_utils.c \
+              $(SRC_DIR)/lexer/char_utils.c \
+              $(SRC_DIR)/lexer/extract_utils.c \
+              $(SRC_DIR)/lexer/quote_utils.c \
+              $(SRC_DIR)/parser/parser.c \
+              $(SRC_DIR)/parser/syntax_check.c \
+              $(SRC_DIR)/parser/parser_utils.c \
+              $(SRC_DIR)/parser/build_command.c \
+              $(SRC_DIR)/expander/ms_expand_vars.c \
+              $(SRC_DIR)/expander/ms_remove_quotes.c \
+              $(SRC_DIR)/executor/execute.c
 
-SRC_SETUP	= setup/ms_init.c \
-			  setup/ms_env.c
+# Object files in obj/ directory
+OBJS        = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-SRC_SIGNALS	= signals/ms_signals.c
+GREEN       = \033[0;32m
+YELLOW      = \033[0;33m
+RED         = \033[0;31m
+RESET       = \033[0m
 
-SRC_PARSE	= lexer/ms_lexer_main.c \
-			  parser/ms_parser_main.c \
-			  parser/ms_syntax.c
-
-SRC_EXPAND	= expander/ms_expand_vars.c \
-			  expander/ms_remove_quotes.c
-
-SRC_EXEC	= executor/ms_execute.c \
-			  executor/ms_pipes.c \
-			  executor/ms_path.c \
-			  executor/ms_execute_cmd.c
-
-SRC_REDIR	= io_redir/ms_redir_setup.c \
-			  io_redir/ms_heredoc.c
-
-SRC_BUILTIN	= builtins/ms_builtin_simple.c \
-			  builtins/ms_builtin_complex.c \
-			  builtins/ms_builtin_cd.c \
-			  builtins/ms_builtin_export.c \
-			  builtins/ms_builtin_unset.c \
-			  builtins/ms_builtin_exit.c
-
-SRCS		= main.c \
-			  $(SRC_SETUP) \
-			  $(SRC_SIGNALS) \
-			  $(SRC_PARSE) \
-			  $(SRC_EXPAND) \
-			  $(SRC_EXEC) \
-			  $(SRC_REDIR) \
-			  $(SRC_BUILTIN)
-
-VPATH		= $(SRC_DIR)
-SRCS		:= $(addprefix $(SRC_DIR)/, $(SRCS))
-
-OBJS		= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
-
-all: $(NAME)
-
-$(NAME): $(LIBFT) $(OBJS)
-	@echo "Linking Minishell..."
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(READLINE) -o $@
-	@echo "Minishell compiled successfully!"
+all: $(LIBFT) $(NAME)
 
 $(LIBFT):
-	@make -sC $(LIBFT_DIR)
-	@echo "Libft compiled."
+	@echo "$(YELLOW)Compiling libft...$(RESET)"
+	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
+	@echo "$(GREEN)✅ Libft ready!$(RESET)"
 
+$(NAME): $(OBJS) $(LIBFT)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(READLINE) -o $(NAME)
+	@echo "$(GREEN)✅ Minishell compiled successfully!$(RESET)"
+
+# Create obj directory structure and compile
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(@D) 2>/dev/null || true
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@echo "$(GREEN)🔨 Compiled: $<$(RESET)"
 
 clean:
-	@make clean -sC $(LIBFT_DIR)
 	@rm -rf $(OBJ_DIR)
-	@echo "Cleaned object files."
+	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory
+	@echo "$(YELLOW)🧹 Object files cleaned!$(RESET)"
 
 fclean: clean
-	@make fclean -sC $(LIBFT_DIR)
 	@rm -f $(NAME)
-	@echo "Cleaned Minishell  and Libft."
+	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
+	@echo "$(RED)🧹 Executable removed!$(RESET)"
 
 re: fclean all
 
-.PHONY: all clean fclean re norm $(LIBFT)
+.PHONY: all clean fclean re

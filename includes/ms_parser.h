@@ -3,15 +3,16 @@
 
 # include "minishell.h"
 
-/*- Parser Functions (P1.2, P1.3) */
-t_list	*ms_parser(t_list *tokens);
-int		ms_syntax_check(t_list *tokens);
-int		ms_add_redirection(t_command *cmd, t_list **current_token);
-
-/* I/O Redirection Setup (P3.2, P3.3 ) */
-int		ms_setup_redirections(t_command *cmd);
-int		ms_do_heredoc(t_redir *redir);
-void	ms_restore_io(t_data *data);
-void	ms_save_io(t_data *data);
-
+t_list		*ms_parser(t_list *tokens);
+int			ms_syntax_check(t_list *tokens);
+t_command	*ms_create_command(void);
+void		ms_add_argument(t_command *cmd, char *arg);
+int			ms_add_redirection(t_command *cmd, t_list **current_token);
+int			ms_setup_redirections(t_command *cmd);
+int			ms_do_heredoc(t_redir *redir);
+t_redir		*ms_create_redir(t_redir_type type, char *file);
+// Add to ms_parser.h
+int			ms_is_redir(t_token_type type);
+int			ms_count_args(t_list *tokens);
+t_command	*ms_build_single_command(t_list **tokens);
 #endif

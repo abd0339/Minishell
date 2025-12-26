@@ -3,51 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzebian <kzebian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afahs <afahs@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/21 22:12:07 by kzebian           #+#    #+#             */
-/*   Updated: 2025/05/26 19:31:47 by kzebian          ###   ########.fr       */
+/*   Created: 2025/05/21 07:29:40 by afahs             #+#    #+#             */
+/*   Updated: 2025/05/24 02:00:40 by afahs            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
-void	*ft_memmove(void *dest, const void *src, size_t n)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
+	unsigned char	*temp_dst;
+	unsigned char	*temp_src;
 	size_t			i;
-	unsigned char	*temp;
-	unsigned char	*temp1;
 
-	temp = (unsigned char *)dest;
-	temp1 = (unsigned char *)src;
 	i = 0;
-	if (temp1 < temp)
+	temp_dst = (unsigned char *) dst;
+	temp_src = (unsigned char *) src;
+	if (temp_dst > temp_src)
 	{
-		while (0 < n)
+		while (len > 0)
 		{
-			temp[n - 1] = temp1[n - 1];
-			n--;
+			temp_dst[len - 1] = temp_src[len - 1];
+			len--;
 		}
 	}
 	else
 	{
-		while (i < n)
+		while (i < len)
 		{
-			temp[i] = temp1[i];
+			temp_dst[i] = temp_src[i];
 			i++;
 		}
 	}
-	return (dest);
+	return (dst);
 }
-
-// #include"stdio.h"
-// #include <string.h>
-
-// int main(void)
-// {
-// 	char S1[10] = "kari"; 
-// 	const char *S2 = "zebian"; 
-// 	char *res = ft_memmove(S1, S2, 5);
-// 	printf("%s\n", res);
-// 	return 0;
-// }

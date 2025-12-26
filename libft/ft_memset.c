@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzebian <kzebian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afahs <afahs@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/21 18:54:06 by kzebian           #+#    #+#             */
-/*   Updated: 2025/05/26 19:37:08 by kzebian          ###   ########.fr       */
+/*   Created: 2025/05/20 18:49:34 by afahs             #+#    #+#             */
+/*   Updated: 2025/05/21 01:54:44 by afahs            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
 void	*ft_memset(void *s, int c, size_t n)
 {
@@ -21,20 +21,8 @@ void	*ft_memset(void *s, int c, size_t n)
 	i = 0;
 	while (i < n)
 	{
-		temp[i] = (unsigned char)c;
+		temp[i] = (unsigned char) c;
 		i++;
 	}
 	return (s);
 }
-
-// #include"stdio.h"
-
-// int	main(void)
-// {
-// 	unsigned char	str[10] = {"abchyg"};
-
-// 	ft_memset(str, 2, 6);
-// 	for (int i = 0; i < 5; i++)
-// 		printf("%d", str[i]);
-// 	printf("%s\n", "");
-// }
