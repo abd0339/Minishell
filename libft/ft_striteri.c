@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzebian <kzebian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afahs <afahs@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 23:04:55 by kzebian           #+#    #+#             */
-/*   Updated: 2025/05/24 17:38:23 by kzebian          ###   ########.fr       */
+/*   Created: 2025/05/23 17:51:30 by afahs             #+#    #+#             */
+/*   Updated: 2025/05/24 05:16:05 by afahs            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include"libft.h"
 
 void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {

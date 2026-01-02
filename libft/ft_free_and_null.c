@@ -1,11 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_free_and_null.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kzebian <kzebian@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/01 00:00:00 by student           #+#    #+#             */
+/*   Updated: 2025/12/24 06:20:03 by kzebian          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free_and_null(void **ptr_ref)
+/*
+** Free pointer and set it to NULL
+*/
+void	ft_free_and_null(void **ptr)
 {
-	if (ptr_ref && *ptr_ref)
+	if (ptr && *ptr)
 	{
-		free(*ptr_ref);
-		*ptr_ref = NULL;
+		free(*ptr);
+		*ptr = NULL;
 	}
 }

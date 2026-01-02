@@ -5,12 +5,12 @@
 #                                                     +:+ +:+         +:+      #
 #    By: kzebian <kzebian@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/05/24 20:08:29 by kzebian           #+#    #+#              #
-#    Updated: 2025/05/24 21:22:07 by kzebian          ###   ########.fr        #
+#    Created: 2025/05/24 01:24:56 by afahs             #+#    #+#              #
+#    Updated: 2025/12/24 06:24:07 by kzebian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FLAG = -Wall -Wextra -Werror
+CFLAG = -Wall -Wextra -Werror
 
 NAME = libft.a
 
@@ -46,31 +46,45 @@ SRC = ft_atoi.c \
 	  ft_toupper.c \
 	  ft_calloc.c \
 	  ft_substr.c \
+	  ft_strlcpy.c \
 	  ft_striteri.c \
-	  ft_strlcpy.c	\
 	  ft_split.c \
+	  ft_isspace_only.c \
 	  ft_free_and_null.c \
-
+		 ft_lstnew.c \
+		ft_lstnew.c \
+		ft_lstadd_front.c \
+		ft_lstsize.c \
+		ft_lstlast.c \
+		ft_lstadd_back.c \
+		ft_lstdelone.c \
+		ft_lstclear.c \
+		ft_lstiter.c \
+		ft_lstmap.c \
+		
 OBJ = $(SRC:.c=.o)
+
+
+CC = cc
+RM = rm -f
+AR = ar rc
+RN = ranlib
+
+%.o: %.c
+	$(CC) $(CFLAG) -c $< -o ${<:.c=.o}
+
+$(NAME): $(OBJ)
+			$(AR) $(NAME) $(OBJ)
+			$(RN) $(NAME)
+
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	@ar rc $(NAME) $(OBJ)
-	@echo "$(NAME) created"
-	@ranlib $(NAME)
-	@echo "$(NAME) indexed"
-
-%.o: %.c
-	@cc $(FLAG) -c $< -o $@
-
 clean:
-	@rm -f $(OBJ)
-	@echo "OBJ deleted"
-
+			$(RM) $(OBJ)
+			
 fclean: clean
-	@rm -f $(NAME)
-	@echo "$(NAME) deleted"
+			$(RM) $(NAME)
 
 re: fclean all
 

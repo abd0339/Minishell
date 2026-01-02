@@ -4,41 +4,93 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <errno.h>
-# include <string.h>
-# include <string.h>
 # include "../libft/libft.h"
 
+# define PROMPT "minishell$ "
+# define SUCCESS 0
+# define ERROR 1
+# define CMD_NOT_FOUND 127
+# define CMD_NOT_EXECUTABLE 126
+
+extern int	g_signal_status;
+
+typedef enum e_token_type
+{
+	TOKEN_WORD,
+	TOKEN_PIPE,
+	TOKEN_REDIRECT_IN,
+	TOKEN_REDIRECT_OUT,
+	TOKEN_APPEND,
+	TOKEN_HEREDOC,
+	TOKEN_WHITESPACE
+}	t_token_type;
+
+typedef enum e_redir_type
+{
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC
+}	t_redir_type;
+
+typedef struct s_token
+{
+	char			*value;
+	t_token_type	type;
+}	t_token;
 
 typedef struct s_env
 {
 	char	*key;
 	char	*value;
-	int		is_exported; 
-} t_env;
+	int		is_exported;
+}	t_env;
+
+typedef struct s_redir
+{
+	t_redir_type	type;
+	char			*file;
+}	t_redir;
 
 typedef struct s_command
 {
-	char			**args;			// Argument vector: {"ls", "-l", NULL}
-	t_list			*redirections;	// Linked list of t_redir structs
-	int				is_builtin;		// Flag to identify built-ins early (1 or 0)
-	pid_t			pid;			// Process ID for the child process 
-	int				in_fd;			// Input file descriptor (default STDIN)
-	int				out_fd;			// Output file descriptor (default STDOUT)
-} t_command;
+	char	**args;
+	t_list	*redirections;
+	int		is_builtin;
+	pid_t	pid;
+	int		in_fd;
+	int		out_fd;
+}	t_command;
 
 typedef struct s_data
 {
-	t_list			*env_list;		// Linked list of t_env structs
-	int				last_exit_code;	// Value of $?
-	t_list			*command_list;	// Linked list of t_command structs (The parsed pipeline)
-	int				stdin_backup;
-	int				stdout_backup; // File Descriptors (Optional, but good practice)
-} t_data;
+	t_list	*env_list;
+	t_list	*command_list;
+	int		last_exit_code;
+	int		stdin_backup;
+	int		stdout_backup;
+}	t_data;
 
-extern int	global_signal_status;
+void	ms_init_data(t_data *data, char **envp);
+void	ms_cleanup(t_data *data);
+void	ms_save_io(t_data *data);
+void	ms_restore_io(t_data *data);
+t_list	*ms_create_env_list(char **envp);
+char	*ms_get_env_value(t_list *env_list, const char *key);
+void	ms_free_env_node(void *content);
+void	ms_setup_signals(void);
+void	ms_handle_sigint(int sig);
+void	ms_free_command_node(void *content);
+void	ms_free_redir(void *content);
+void	ms_error_exit(const char *msg, int exit_code);
+void	ms_print_error(char *cmd, char *msg);
 
 #endif

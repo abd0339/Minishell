@@ -19,7 +19,7 @@ static void	ms_save_io(t_data *data)
 Used before exiting or when a command fails/finishes.
 param data The main shell structure.
  */
-static void	ms_restore_io_and_close_backups(t_data *data)
+void	ms_restore_io(t_data *data)
 {
 	if (data->stdin_backup != -1)
 	{
@@ -37,14 +37,27 @@ static void	ms_restore_io_and_close_backups(t_data *data)
 /* Placeholder for freeing a single t_command node and its contents.
  This function will be properly implemented by Student A (P1 cleanup).
  param content A pointer to the t_command struct content */
-static void	ms_free_command_node(void *content)
+void	ms_free_command_node(void *content)
 {
 	t_command	*cmd;
-	
+	int			i;
+
 	cmd = (t_command *)content;
 	if (!cmd)
 		return ;
-	(void)cmd;
+	if (cmd->args)
+	{
+		i = 0;
+		while (cmd->args[i])
+		{
+			free(cmd->args[i]);
+			i++;
+		}
+		free(cmd->args);
+	}
+	if (cmd->redirections)
+		ft_lstclear(&(cmd->redirections), ms_free_redir);
+	free(cmd);
 }
 void	ms_init_data(t_data *data, char **envp)
 {
@@ -55,7 +68,8 @@ void	ms_init_data(t_data *data, char **envp)
 	data->env_list = ms_create_env_list(envp);
 	if (!data->env_list)
 	{
-		ft_printf(stderr, "minishell: WARNING: Could not initialize environment.\n");
+		ft_putendl_fd("minishell: WARNING: Could not initialize environment",
+			STDERR_FILENO);
 	}
 }
 
@@ -68,5 +82,5 @@ void	ms_cleanup(t_data *data)
 		ft_lstclear(&(data->env_list), ms_free_env_node);
 	if (data->command_list)
 		ft_lstclear(&(data->command_list), ms_free_command_node);
-	ms_restore_io_and_close_backups(data);
+	ms_restore_io(data);
 }

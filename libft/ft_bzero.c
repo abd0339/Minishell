@@ -3,38 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzebian <kzebian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afahs <afahs@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/21 19:10:20 by kzebian           #+#    #+#             */
-/*   Updated: 2025/05/26 18:20:14 by kzebian          ###   ########.fr       */
+/*   Created: 2025/05/21 01:55:10 by afahs             #+#    #+#             */
+/*   Updated: 2025/05/21 08:26:58 by afahs            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
 void	ft_bzero(void *s, size_t n)
 {
-	size_t			i;
-	char			*temp;
+	char	*temp;		
 
-	temp = (char *)s;
-	i = 0;
-	while (i < n)
+	temp = (char *) s;
+	while (n > 0)
 	{
-		temp[i] = 0;
-		i++;
+		*(temp++) = 0;
+		n--;
 	}
 }
-
-// #include<stdio.h>
-// int main(void)
-// {
-//     char    str[3] = {"abc"};
-
-//     ft_bzero(str, 7);
-
-//     for (int i = 0; i < 3; i++)
-//         printf("%c", str[i]);
-
-//     return (0);
-// }

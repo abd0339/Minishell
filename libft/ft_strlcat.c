@@ -3,47 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzebian <kzebian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afahs <afahs@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 21:48:59 by kzebian           #+#    #+#             */
-/*   Updated: 2025/05/24 23:41:37 by kzebian          ###   ########.fr       */
+/*   Created: 2025/05/20 19:10:51 by afahs             #+#    #+#             */
+/*   Updated: 2025/05/24 02:07:18 by afahs            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
 size_t	ft_strlcat(char *dest, const char *src, size_t size)
 {
-	size_t	i;
-	size_t	j;
-	size_t	srclen;
+	size_t	src_len;
+	size_t	dest_len;
 
-	i = 0;
-	j = 0;
-	srclen = ft_strlen(src);
-	while (dest[i])
-		i++;
-	if (i >= size)
-		return (srclen + size);
-	if (size == 0)
-		return (srclen);
-	while (src[j] && (i + j < size - 1))
+	src_len = ft_strlen(src);
+	dest_len = ft_strlen(dest);
+	if (dest_len >= size)
+		dest_len = size;
+	if (dest_len >= size)
+		return (src_len + size);
+	if (size > (src_len + dest_len))
+		ft_memcpy(dest + dest_len, src, src_len + 1);
+	else
 	{
-		dest[i + j] = src[j];
-		j++;
+		ft_memcpy(dest + dest_len, src, (size - dest_len - 1));
+		dest[size - 1] = '\0';
 	}
-	dest[i + j] = '\0';
-	return (i + srclen);
+	return (src_len + dest_len);
 }
-
-// int main(void)
-// {
-// 	char dest[30];
-// 	memset(dest, 0, 30);
-// 	char * src = (char *)"AAAAAAAAA";
-
-// 	memset(dest, 'B', 4);
-// 	int x = ft_strlcat(dest, src, 6);
-// 	printf("S%sS\n", dest);
-// 	printf("D%dD\n", x);
-// }

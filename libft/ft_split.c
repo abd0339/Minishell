@@ -3,33 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzebian <kzebian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afahs <afahs@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 18:24:30 by kzebian           #+#    #+#             */
-/*   Updated: 2025/06/03 22:59:55 by kzebian          ###   ########.fr       */
+/*   Created: 2025/05/23 00:28:59 by afahs             #+#    #+#             */
+/*   Updated: 2025/05/24 05:14:06 by afahs            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
-static int	seperator(char c, char a)
+static int	sep(char c, char s)
 {
-	if (c == a || c == '\0')
+	if (c == s || c == '\0')
 		return (1);
 	return (0);
 }
 
-static void	write_word(char *str, char const *from, char c)
+static void	write_word(char *dest, char const *from, char c)
 {
 	int	i;
 
 	i = 0;
-	while (!seperator(from[i], c))
+	while (!sep(from[i], c))
 	{
-		str[i] = from[i];
+		dest[i] = from[i];
 		i++;
 	}
-	str[i] = '\0';
+	dest[i] = '\0';
 }
 
 static void	*create_word(char **split, int word, int j)
@@ -44,28 +44,28 @@ static void	*create_word(char **split, int word, int j)
 	return ((void *)1);
 }
 
-static int	*write_split(char **split, char const *str, char c)
+static void	*write_split(char **split, char const *str, char c)
 {
-	int	i;
-	int	j;
-	int	words;
+	int		i;
+	int		j;
+	int		word;
 
-	words = 0;
+	word = 0;
 	i = 0;
-	while (str[i])
+	while (str[i] != '\0')
 	{
 		if (str[i] == c)
 			i++;
 		else
 		{
 			j = 0;
-			while (!seperator(str[i + j], c))
+			while (!sep(str[i + j], c))
 				j++;
-			if (!create_word(split, words, j))
+			if (!create_word(split, word, j))
 				return (NULL);
-			write_word(split[words], str + i, c);
+			write_word(split[word], str + i, c);
 			i += j;
-			words++;
+			word++;
 		}
 	}
 	return ((void *)1);
@@ -73,48 +73,27 @@ static int	*write_split(char **split, char const *str, char c)
 
 char	**ft_split(char const *s, char c)
 {
-	char	**final;
-	int		i;
-	int		j;
+	char	**res;
 	char	*str;
+	int		words;
+	int		i;
 
-	i = 0;
-	j = 0;
-	str = (char *)s;
 	if (!s)
 		return (NULL);
+	str = (char *)s;
+	i = 0;
+	words = 0;
 	while (s[i])
 	{
-		if (!seperator(s[i], c) && seperator(s[i + 1], c))
-			j++;
+		if (!sep(s[i], c) && sep(s[i + 1], c))
+			words++;
 		i++;
 	}
-	final = (char **)malloc(sizeof(char *) * (j + 1));
-	if (!final)
+	res = (char **)malloc(sizeof(char *) * (words + 1));
+	if (!res)
 		return (NULL);
-	final[j] = 0;
-	if (!write_split(final, str, c))
+	res[words] = 0;
+	if (!write_split(res, str, c))
 		return (NULL);
-	return (final);
+	return (res);
 }
-
-// #include <stdio.h>
-// #include <stdlib.h>
-
-// char **ft_split(char const *s, char c);
-
-// int	main(void)
-// {
-// 	char const *str = "salut,comment,tu,vas";
-// 	char **res = ft_split(str, ',');
-
-// 	int i = 0;
-// 	while (res[i])
-// 	{
-// 		printf("Mot %d: %s\n", i + 1, res[i]);
-// 		free(res[i]);
-// 		i++;
-// 	}
-// 	free(res);
-// 	return 0;
-// }
