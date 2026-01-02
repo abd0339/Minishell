@@ -1,4 +1,3 @@
-
 #include "../../includes/minishell.h"
 
 void	ms_free_env_node(void *content)
@@ -46,8 +45,7 @@ static t_env	*ms_create_env_node_content(char *env_line)
 
 /* Converts the initial char **envp array into a t_list linked list.
 envp The environment array passed to main().
-t_list* The head of the new environment list, or NULL on error.
- */
+t_list* The head of the new environment list, or NULL on error */
 t_list	*ms_create_env_list(char **envp)
 {
 	t_list	*env_list;

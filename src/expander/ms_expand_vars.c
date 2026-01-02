@@ -1,4 +1,3 @@
-
 #include "../../includes/minishell.h"
 
 char	*ms_get_env_value(t_list *env_list, const char *key);

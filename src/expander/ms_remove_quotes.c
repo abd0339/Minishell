@@ -1,5 +1,3 @@
-
-
 #include "../../includes/minishell.h"
 
 static int	ms_get_unquoted_len(const char *str)
