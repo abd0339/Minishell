@@ -6,7 +6,7 @@
 /*   By: kzebian <kzebian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 01:43:35 by afahs             #+#    #+#             */
-/*   Updated: 2025/12/24 06:20:14 by kzebian          ###   ########.fr       */
+/*   Updated: 2026/01/04 23:30:11 by kzebian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,7 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3);
+void	ft_free_array(char **array);
 
 #endif

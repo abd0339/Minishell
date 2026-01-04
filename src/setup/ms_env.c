@@ -26,7 +26,7 @@ static t_env	*ms_create_env_node_content(char *env_line)
 	if (equal_sign)
 	{
 		key_len = equal_sign - env_line;
-		new_env->key = ft_substr(env_line, key_len);
+		new_env->key = ft_substr(env_line, 0, key_len);
 		new_env->value = ft_strdup(equal_sign + 1);
 	}
 	else

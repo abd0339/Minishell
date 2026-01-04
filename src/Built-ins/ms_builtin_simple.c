@@ -1,7 +1,5 @@
 #include "../../includes/minishell.h"
 
-/* Checks if a given command name matches any of the 7 required builtins,  cmd The command name string.
-int 1 if it is a builtin, 0 otherwise */
 int	ms_is_builtin(char *cmd)
 {
 	if (!cmd)
@@ -14,8 +12,6 @@ int	ms_is_builtin(char *cmd)
 	return (0);
 }
 
-/* implementation of the 'pwd' builtin , Prints the current working directory
-return int 0 on success, 1 on failure */
 int	ms_builtin_pwd(void)
 {
 	char	cwd[PATH_MAX];
@@ -29,8 +25,6 @@ int	ms_builtin_pwd(void)
 	return (1);
 }
 
-/*  implementation of the 'env' builtin , Prints the current environment variables.
-env_list The linked list of environment variables , return int Always 0 */
 int	ms_builtin_env(t_list *env_list)
 {
 	t_env	*env;
@@ -49,8 +43,6 @@ int	ms_builtin_env(t_list *env_list)
 	return (0);
 }
 
-/* implementation of the 'echo' builtin ,Handles the '-n' flag to suppress the trailing newline.
-param args The argument vector starting at echo [1] ,return int Always 0 */
 int	ms_builtin_echo(char **args)
 {
 	int	i;

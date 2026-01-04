@@ -58,7 +58,7 @@ int	ms_builtin_exit(t_data *data, char **args)
 			ms_exit_error(NULL, 1);
 			return (1);
 		}
-		status = ft_atoll(args[1]);
+		status = ft_atoi(args[1]);
 		ms_cleanup(data);
 		exit(status % 256);
 	}

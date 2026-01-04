@@ -28,7 +28,17 @@ SRCS        = $(SRC_DIR)/main.c \
               $(SRC_DIR)/parser/build_command.c \
               $(SRC_DIR)/expander/ms_expand_vars.c \
               $(SRC_DIR)/expander/ms_remove_quotes.c \
-              $(SRC_DIR)/executor/execute.c
+              $(SRC_DIR)/executor/execute.c \
+                $(SRC_DIR)/executor/ms_execute_cmd.c \
+                $(SRC_DIR)/executor/ms_execute.c \
+                $(SRC_DIR)/executor/ms_path.c \
+                $(SRC_DIR)/executor/ms_pipes.c \
+                $(SRC_DIR)/io_redir/ms_heredoc.c \
+                $(SRC_DIR)/io_redir/ms_redir_setup.c \
+                $(SRC_DIR)/Built-ins/ms_builtin_simple.c \
+                $(SRC_DIR)/Built-ins/ms_builtin_complex.c \
+                $(SRC_DIR)/Built-ins/ms_builtin_exit.c \
+                
 
 # Object files in obj/ directory
 OBJS        = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

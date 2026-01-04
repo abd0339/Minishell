@@ -6,7 +6,7 @@
 #    By: kzebian <kzebian@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/24 01:24:56 by afahs             #+#    #+#              #
-#    Updated: 2025/12/24 06:24:07 by kzebian          ###   ########.fr        #
+#    Updated: 2026/01/04 23:28:45 by kzebian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,8 @@ SRC = ft_atoi.c \
 		ft_lstclear.c \
 		ft_lstiter.c \
 		ft_lstmap.c \
+		ft_strjoin_three.c \
+		ft_free_array.c \
 		
 OBJ = $(SRC:.c=.o)
 

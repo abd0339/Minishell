@@ -5,6 +5,8 @@
 
 int		ms_is_builtin(char *cmd_name);
 int		ms_run_builtin(t_data *data, t_command *cmd);
+int	ms_builtin_cd(t_data *data, char **args);
+
 
 
 // Complex (Student B)
