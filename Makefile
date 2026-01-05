@@ -28,7 +28,6 @@ SRCS        = $(SRC_DIR)/main.c \
               $(SRC_DIR)/parser/build_command.c \
               $(SRC_DIR)/expander/ms_expand_vars.c \
               $(SRC_DIR)/expander/ms_remove_quotes.c \
-              $(SRC_DIR)/executor/execute.c \
                 $(SRC_DIR)/executor/ms_execute_cmd.c \
                 $(SRC_DIR)/executor/ms_execute.c \
                 $(SRC_DIR)/executor/ms_path.c \

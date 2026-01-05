@@ -93,4 +93,9 @@ void	ms_free_redir(void *content);
 void	ms_error_exit(const char *msg, int exit_code);
 void	ms_print_error(char *cmd, char *msg);
 
+# include "ms.builtins.h"
+# include "ms_lexer.h"
+# include "ms_parser.h"
+# include "ms.exec.h"
+
 #endif

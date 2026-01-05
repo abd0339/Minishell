@@ -34,31 +34,71 @@ static char	**ms_get_env_array(t_list *env_list)
 data Main shell data , cmd Current command structure */
 void	ms_execute_external(t_data *data, t_command *cmd)
 {
+	pid_t	pid;
+	int		status;
 	char	*path;
 	char	**env_tab;
 
-	path = ms_resolve_path(data, cmd->args[0]);
-	if (!path)
+	pid = fork();
+	if (pid == -1)
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd->args[0], 2);
-		ft_putendl_fd(": command not found", 2);
-		ms_cleanup(data);
-		exit(127);
+		perror("minishell: fork");
+		data->last_exit_code = 1;
+		return ;
 	}
-	env_tab = ms_get_env_array(data->env_list);
-	if (!env_tab)
+	if (pid == 0)  // ✅ CHILD PROCESS ONLY
 	{
+		// Resolve path
+		path = ms_resolve_path(data, cmd->args[0]);
+		if (!path)
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(cmd->args[0], 2);
+			ft_putendl_fd(": command not found", 2);
+			ms_cleanup(data);
+			exit(127);  // ✅ Only child exits
+		}
+		
+		// Setup redirections
+		if (ms_setup_redirections(cmd) != 0)
+		{
+			free(path);
+			ms_cleanup(data);
+			exit(1);
+		}
+		
+		// Get environment
+		env_tab = ms_get_env_array(data->env_list);
+		if (!env_tab)
+		{
+			free(path);
+			ms_cleanup(data);
+			exit(EXIT_FAILURE);
+		}
+		
+		// Execute
+		execve(path, cmd->args, env_tab);
+		
+		// If execve fails (only reaches here on error)
+		perror("minishell: execve");
 		free(path);
+		ft_free_array(env_tab);
 		ms_cleanup(data);
-		exit(EXIT_FAILURE);
+		exit(126);
 	}
-	execve(path, cmd->args, env_tab);
-	perror("minishell: execve");
-	free(path);
-	ft_free_array(env_tab);
-	ms_cleanup(data);
-	exit(126);
+	else  // ✅ PARENT PROCESS
+	{
+		// Wait for child to finish
+		waitpid(pid, &status, 0);
+		
+		// Update exit code
+		if (WIFEXITED(status))
+			data->last_exit_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			data->last_exit_code = 128 + WTERMSIG(status);
+		
+		// ✅ Parent continues - NO exit() here!
+	}
 }
 
 /* Forking logic for a single (non-piped) external command ,data Main shell data 

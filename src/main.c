@@ -1,8 +1,4 @@
-
 #include "../includes/minishell.h"
-#include "../includes/ms_lexer.h"
-#include "../includes/ms_parser.h"
-#include "../includes/ms_exec.h"
 
 /*
 ** The single allowed global variable (Subject requirement)
@@ -23,48 +19,46 @@ static void	ms_shell_loop(t_data *data)
 	{
 		ms_setup_signals();
 		line = readline(PROMPT);
+		
+		// Handle Ctrl+D (EOF)
 		if (!line)
 		{
 			ft_putendl_fd("exit", STDOUT_FILENO);
 			break ;
 		}
+		
+		// Skip empty lines
 		if (line[0] == '\0' || ft_isspace_only(line))
 		{
 			free(line);
 			continue ;
 		}
+		
+		// Add to history
 		add_history(line);
 		
-		// LEXER
+		// LEXER: Tokenize input
 		tokens = ms_lexer(line);
-		if (tokens)
+		if (!tokens)
 		{
-			printf("[DEBUG] Tokens created\n");  // ADD THIS
-			ms_print_tokens(tokens);              // ADD THIS
-		}
-		else
-			printf("[DEBUG] Lexer failed\n");     // ADD THIS
-		
-		// PARSER
-		if (tokens)
-		{
-			data->command_list = ms_parser(tokens);
-			if (data->command_list)
-				printf("[DEBUG] Parser success - commands created\n");  // ADD THIS
-			else
-				printf("[DEBUG] Parser failed\n");  // ADD THIS
+			free(line);
+			continue ;
 		}
 		
-		// EXECUTION
+		// PARSER: Build command structures
+		data->command_list = ms_parser(tokens);
+		
+		// EXECUTOR: Run commands
 		if (data->command_list)
 			ms_execute_manager(data);
 		
 		// CLEANUP
 		if (data->command_list)
+		{
 			ft_lstclear(&(data->command_list), ms_free_command_node);
-		if (tokens)
-			ft_lstclear(&tokens, ms_free_token);
-		data->command_list = NULL;
+			data->command_list = NULL;
+		}
+		ft_lstclear(&tokens, ms_free_token);
 		free(line);
 	}
 }
@@ -76,9 +70,16 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	
+	// Initialize shell data
 	ms_init_data(&data, envp);
+	
+	// Run main loop
 	ms_shell_loop(&data);
+	
+	// Cleanup and exit
 	exit_code = data.last_exit_code;
 	ms_cleanup(&data);
+	
 	return (exit_code);
 }

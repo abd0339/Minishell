@@ -4,7 +4,7 @@
 /* Saves the original standard I/O file descriptors.
  This is crucial for restoration after redirections (P3.2).
  param data The main shell structure */
-static void	ms_save_io(t_data *data)
+void	ms_save_io(t_data *data)
 {
 	data->stdin_backup = dup(STDIN_FILENO);
 	data->stdout_backup = dup(STDOUT_FILENO);
