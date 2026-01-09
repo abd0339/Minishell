@@ -6,7 +6,7 @@
 /*   By: kzebian <kzebian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 16:05:29 by kzebian           #+#    #+#             */
-/*   Updated: 2025/12/26 16:06:07 by kzebian          ###   ########.fr       */
+/*   Updated: 2026/01/08 21:22:38 by kzebian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	ms_handle_sigint(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
+	g_signal_status = sig;
+	write (STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -23,6 +24,15 @@ void	ms_handle_sigint(int sig)
 
 void	ms_setup_signals(void)
 {
-	signal(SIGINT, ms_handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
+
+	sa_int.sa_handler = ms_handle_sigint;
+	sigemptyset(&sa_int.sa_mask);
+	sa_int.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa_int, NULL);
+	sa_quit.sa_handler = SIG_IGN;
+	sigemptyset(&sa_quit.sa_mask);
+	sa_quit.sa_flags = 0;
+	sigaction(SIGQUIT, &sa_quit, NULL);
 }
